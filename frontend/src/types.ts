@@ -10,6 +10,7 @@ export interface Job {
   currency: string;
   description: string;
   isBookMarked?: boolean;
+  user?: string;
   experienceLevel?: string;
   createdAt?: string;
   postedAt?: string;

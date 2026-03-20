@@ -11,9 +11,10 @@ import { AddJobModal } from '../components/AddJobModal';
 
 interface HomePageProps {
   onJobClick: (job: Job) => void;
+  user: any;
 }
 
-export const HomePage = ({ onJobClick }: HomePageProps) => {
+export const HomePage = ({ onJobClick, user }: HomePageProps) => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [savedJobsView, setSavedJobsView] = useState<Job[]>([]);
   const [isAddJobModalOpen, setIsAddJobModalOpen] = useState(false);
@@ -139,12 +140,14 @@ export const HomePage = ({ onJobClick }: HomePageProps) => {
                   filters={filters} 
                 />
               </div>
-              <button 
-                onClick={() => setIsAddJobModalOpen(true)}
-                className="px-8 py-[18px] bg-[#0046D5] text-white font-bold text-sm rounded-2xl hover:bg-blue-700 transition-all shadow-sm shrink-0 w-full md:w-auto"
-              >
-                Add Job
-              </button>
+              {user && (
+                <button 
+                  onClick={() => setIsAddJobModalOpen(true)}
+                  className="px-8 py-[18px] bg-[#0046D5] text-white font-bold text-sm rounded-2xl hover:bg-blue-700 transition-all shadow-sm shrink-0 w-full md:w-auto"
+                >
+                  Add Job
+                </button>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -155,7 +158,7 @@ export const HomePage = ({ onJobClick }: HomePageProps) => {
                     job={job} 
                     onClick={() => onJobClick(job)} 
                     onBookmark={() => wrapToggleBookmark(job)} 
-                    onRemove={() => handleRemoveJob(job)}
+                    onRemove={user && job.user === user._id ? () => handleRemoveJob(job) : undefined}
                   />
                 ))
               ) : (

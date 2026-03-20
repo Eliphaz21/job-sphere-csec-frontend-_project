@@ -120,7 +120,7 @@ export default function App() {
             transition={{ duration: 0.2 }}
           >
             {currentPage === 'home' && (
-              <HomePage onJobClick={handleJobClick} />
+              <HomePage onJobClick={handleJobClick} user={user} />
             )}
 
             {currentPage === 'details' && selectedJob && (
@@ -128,6 +128,7 @@ export default function App() {
                 job={selectedJob}
                 onBack={() => handleNavigate('home')}
                 onApply={() => handleApply(selectedJob)}
+                user={user}
               />
             )}
 

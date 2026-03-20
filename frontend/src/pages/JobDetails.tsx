@@ -8,9 +8,10 @@ interface JobDetailsPageProps {
   job: Job;
   onBack: () => void;
   onApply: () => void;
+  user: any;
 }
 
-export const JobDetailsPage = ({ job: initialJob, onBack, onApply }: JobDetailsPageProps) => {
+export const JobDetailsPage = ({ job: initialJob, onBack, onApply, user }: JobDetailsPageProps) => {
   const [job, setJob] = useState(initialJob);
   const [relatedJobs, setRelatedJobs] = useState<Job[]>([]);
   const [isApplying, setIsApplying] = useState(false);
@@ -122,13 +123,19 @@ export const JobDetailsPage = ({ job: initialJob, onBack, onApply }: JobDetailsP
                     <Share2 className="w-7 h-7" />
                   </button>
                 </div>
-                <button
-                  onClick={handleApplyClick}
-                  disabled={isApplying}
-                  className="w-full md:w-auto px-12 py-4 bg-blue-700 text-white font-bold text-lg rounded-xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-200 disabled:opacity-50"
-                >
-                  {isApplying ? 'Applying...' : 'Apply now'}
-                </button>
+                {user ? (
+                  <button
+                    onClick={handleApplyClick}
+                    disabled={isApplying}
+                    className="w-full md:w-auto px-12 py-4 bg-blue-700 text-white font-bold text-lg rounded-xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-200 disabled:opacity-50"
+                  >
+                    {isApplying ? 'Applying...' : 'Apply now'}
+                  </button>
+                ) : (
+                  <div className="w-full md:w-auto px-8 py-4 bg-gray-100 text-gray-500 font-bold border border-gray-200 rounded-xl whitespace-nowrap">
+                    Sign in to apply
+                  </div>
+                )}
                 {applyMessage && <p className="text-red-500 font-semibold text-sm">{applyMessage}</p>}
               </div>
             </div>

@@ -2,7 +2,8 @@ const Job = require('../models/Job');
 
 exports.createJob = async (req, res) => {
   try {
-    const job = await Job.create(req.body);
+    const jobData = { ...req.body, user: req.user._id };
+    const job = await Job.create(jobData);
     res.status(201).json(job);
   } catch (error) {
     res.status(500).json({ message: error.message });
