@@ -84,4 +84,3 @@ JWT_SECRET=your_jwt_secret_key
 npm start
 ```
 
-The server will kick off and run locally (usually on `http://localhost:5000`) providing API paths for your frontend!
