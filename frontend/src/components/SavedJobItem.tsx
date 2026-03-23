@@ -8,6 +8,8 @@ interface SavedJobItemProps {
 }
 
 export const SavedJobItem = ({ job }: SavedJobItemProps) => {
+  const [imgError, setImgError] = React.useState(false);
+  
   const getLogoBg = (company: string) => {
     if (company.includes('Binford')) return 'bg-[#008000]';
     if (company.includes('Abstergo')) return 'bg-[#0046D5]';
@@ -23,13 +25,13 @@ export const SavedJobItem = ({ job }: SavedJobItemProps) => {
     <div className="p-4 bg-white rounded-[24px] border border-gray-100 mb-4 hover:shadow-lg transition-all relative group shadow-sm">
       <div className="flex items-center gap-4">
         <div className={`w-14 h-14 rounded-full ${getLogoBg(job.company)} flex items-center justify-center border border-gray-50 p-2.5 shrink-0 overflow-hidden`}>
-          {job.logo ? (
+          {!imgError && job.logo ? (
             <img 
               src={job.logo.startsWith('http') ? job.logo : `https://${job.logo}`} 
               alt={job.company} 
               className="w-full h-full object-cover" 
               referrerPolicy="no-referrer" 
-              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+              onError={() => setImgError(true)}
             />
           ) : (
             <span className="text-xl font-bold text-white tracking-widest leading-none pb-0.5">{job.company?.charAt(0)}</span>

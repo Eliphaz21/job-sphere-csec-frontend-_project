@@ -22,7 +22,10 @@ interface JobCardProps {
   key?: React.Key;
 }
 
-export const JobCard = ({ job, onClick, onBookmark, onRemove }: JobCardProps) => (
+export const JobCard = ({ job, onClick, onBookmark, onRemove }: JobCardProps) => {
+  const [imgError, setImgError] = React.useState(false);
+
+  return (
   <motion.div
     layout
     initial={{ opacity: 0, y: 20 }}
@@ -32,13 +35,13 @@ export const JobCard = ({ job, onClick, onBookmark, onRemove }: JobCardProps) =>
   >
     <div className="flex gap-4">
       <div className="w-14 h-14 rounded-xl bg-[#F8F9FB] flex items-center justify-center overflow-hidden border border-gray-100 p-2 shrink-0">
-        {job.logo ? (
+        {!imgError && job.logo ? (
           <img 
             src={job.logo.startsWith('http') ? job.logo : `https://${job.logo}`} 
             alt={job.company} 
             className="w-full h-full object-contain" 
             referrerPolicy="no-referrer" 
-            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            onError={() => setImgError(true)}
           />
         ) : (
           <span className="text-2xl font-bold text-gray-400">{job.company?.charAt(0)}</span>
@@ -97,4 +100,5 @@ export const JobCard = ({ job, onClick, onBookmark, onRemove }: JobCardProps) =>
       </div>
     </div>
   </motion.div>
-);
+  );
+};

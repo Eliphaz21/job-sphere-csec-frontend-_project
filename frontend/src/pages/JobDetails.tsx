@@ -16,6 +16,7 @@ export const JobDetailsPage = ({ job: initialJob, onBack, onApply, user }: JobDe
   const [relatedJobs, setRelatedJobs] = useState<Job[]>([]);
   const [isApplying, setIsApplying] = useState(false);
   const [applyMessage, setApplyMessage] = useState('');
+  const [imgError, setImgError] = useState(false);
   
   useEffect(() => {
     const fetchRelated = async () => {
@@ -90,13 +91,13 @@ export const JobDetailsPage = ({ job: initialJob, onBack, onApply, user }: JobDe
             <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-12">
               <div className="flex gap-6">
                 <div className="w-20 h-20 rounded-2xl bg-gray-50 flex items-center justify-center border border-gray-100 overflow-hidden shrink-0 p-2">
-                  {job.logo ? (
+                  {!imgError && job.logo ? (
                      <img 
                         src={job.logo.startsWith('http') ? job.logo : `https://${job.logo}`} 
                         alt={job.company} 
                         className="w-full h-full object-contain" 
                         referrerPolicy="no-referrer" 
-                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        onError={() => setImgError(true)}
                      />
                   ) : (
                      <span className="text-3xl font-bold text-gray-400">{job.company?.charAt(0)}</span>
