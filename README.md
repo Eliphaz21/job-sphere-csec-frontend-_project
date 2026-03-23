@@ -84,3 +84,11 @@ To run Job Sphere on your local machine, you will need to start both the Fronten
 
 ##  Conclusion
 Job Sphere demonstrates excellent full-stack engineering practices, ensuring a clean separation of concerns between the client and the server, secure data handling, and an engaging, beautiful user interface.
+
+---
+
+## License & Copyright
+
+&copy; 2026 Yeabsra Andnet. All rights reserved.
+
+This project is the intellectual property of Yeabsra Andnet. Unauthorized copying, modification, or distribution without explicit permission is strictly prohibited.
