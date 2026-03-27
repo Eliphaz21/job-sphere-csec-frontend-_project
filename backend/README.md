@@ -1,4 +1,4 @@
-# JobSphere Backend API
+# JobSphere Backend 
 
 A secure, high-performance backend server built with Node.js and Express.js to power the JobSphere platform. The backend manages all data storage, handles user authentication, and serves RESTful API endpoints for jobs and applications.
 
@@ -73,8 +73,6 @@ npm install
 ### 3. Setup environment variables
 Create a `.env` file in the backend folder and add your specific configurations:
 ```env
-NODE_ENV=development
-PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 ```
