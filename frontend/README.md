@@ -18,8 +18,6 @@ A modern, responsive job portal web application built with React, Vite, and Tail
 - **Forms & Validation**: Formik & Yup
 - **API Requests**: Axios
 - **Icons**: Lucide React
-## This how it looks like the  website
-
 
 ##  Getting Started
 
