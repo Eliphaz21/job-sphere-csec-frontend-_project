@@ -94,4 +94,3 @@ Job Sphere demonstrates excellent full-stack engineering practices, ensuring a c
 
 &copy; 2026 Yeabsra Andnet. All rights reserved.
 
-This project is the intellectual property of Yeabsra Andnet. Unauthorized copying, modification, or distribution without explicit permission is strictly prohibited.
