@@ -6,6 +6,7 @@ import { HomePage } from './pages/Home';
 import { JobDetailsPage } from './pages/JobDetails';
 import { LoginPage } from './pages/SignIn';
 import { SignUpPage } from './pages/SignUp';
+import { AdminPanel } from './pages/AdminPanel';
 import { Footer } from './components/Footer';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -15,7 +16,9 @@ import api from './api';
 export default function App() {
   const [currentPage, setCurrentPage] = React.useState<Page>('home');
   const [selectedJob, setSelectedJob] = React.useState<Job | null>(null);
-  const [user, setUser] = React.useState<any>(null);
+  const [user, setUser] = React.useState<any>(() => {
+    try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; }
+  });
   const [appliedJobs, setAppliedJobs] = React.useState<Job[]>([]);
   const [showContactSuccess, setShowContactSuccess] = React.useState(false);
 
@@ -82,23 +85,33 @@ export default function App() {
 
   const handleLogin = (userData: any) => {
     setUser(userData);
-    setCurrentPage('home');
+    // Redirect admin to admin panel, regular users to home
+    setCurrentPage(userData.isAdmin ? 'admin' : 'home');
     window.scrollTo(0, 0);
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('user');
     setUser(null);
     setCurrentPage('home');
     window.scrollTo(0, 0);
   };
 
-  // Auth pages are rendered without the main layout
+  // Auth pages rendered without main layout
   if (currentPage === 'login') {
     return <LoginPage onNavigate={handleNavigate} onLogin={handleLogin} />;
   }
-
   if (currentPage === 'signup') {
     return <SignUpPage onNavigate={handleNavigate} onLogin={handleLogin} />;
+  }
+  // Admin panel rendered with Navbar but without Footer
+  if (currentPage === 'admin') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        <Navbar onNavigate={handleNavigate} currentPage={currentPage} user={user} onLogout={handleLogout} />
+        <main className="flex-1"><AdminPanel /></main>
+      </div>
+    );
   }
 
   return (

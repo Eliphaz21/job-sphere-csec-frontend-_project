@@ -2,8 +2,7 @@ const Job = require('../models/Job');
 
 exports.createJob = async (req, res) => {
   try {
-    const jobData = { ...req.body, user: req.user._id };
-    const job = await Job.create(jobData);
+    const job = await Job.create({ ...req.body, user: req.user._id });
     res.status(201).json(job);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -22,13 +21,22 @@ exports.getJobs = async (req, res) => {
 exports.searchJobs = async (req, res) => {
   try {
     const { title, location, type } = req.query;
-    let query = {};
-    if (title) query.title = { $regex: title, $options: 'i' };
+    const query = {};
+    if (title)    query.title    = { $regex: title,    $options: 'i' };
     if (location) query.location = { $regex: location, $options: 'i' };
-    if (type) query.type = type;
+    if (type)     query.type     = type;
 
-    const jobs = await Job.find(query);
-    res.json(jobs);
+    res.json(await Job.find(query));
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.updateJob = async (req, res) => {
+  try {
+    const job = await Job.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!job) return res.status(404).json({ message: 'Job not found' });
+    res.json(job);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

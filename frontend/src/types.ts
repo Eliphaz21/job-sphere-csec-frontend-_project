@@ -19,4 +19,4 @@ export interface Job {
   responsibilities?: string[];
 }
 
-export type Page = 'home' | 'details' | 'login' | 'signup' | 'applications' | 'companies' | 'contact';
+export type Page = 'home' | 'details' | 'login' | 'signup' | 'applications' | 'companies' | 'contact' | 'admin';

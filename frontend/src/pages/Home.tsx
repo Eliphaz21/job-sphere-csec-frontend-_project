@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Briefcase, Plus } from 'lucide-react';
+import { Briefcase } from 'lucide-react';
 import { Job } from '../types';
 import api from '../api';
 import { Hero } from '../components/Hero';
@@ -7,7 +7,6 @@ import { SidebarFilters } from '../components/SidebarFilters';
 import { SearchBar } from '../components/SearchBar';
 import { JobCard } from '../components/JobCard';
 import { SavedJobItem } from '../components/SavedJobItem';
-import { AddJobModal } from '../components/AddJobModal';
 
 interface HomePageProps {
   onJobClick: (job: Job) => void;
@@ -17,7 +16,6 @@ interface HomePageProps {
 export const HomePage = ({ onJobClick, user }: HomePageProps) => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [savedJobsView, setSavedJobsView] = useState<Job[]>([]);
-  const [isAddJobModalOpen, setIsAddJobModalOpen] = useState(false);
   const [filters, setFilters] = useState({
     datePosted: 'All Time',
     jobTypes: [] as string[],
@@ -141,14 +139,6 @@ export const HomePage = ({ onJobClick, user }: HomePageProps) => {
                   filters={filters}
                 />
               </div>
-              {user && (
-                <button
-                  onClick={() => setIsAddJobModalOpen(true)}
-                  className="px-8 py-[18px] bg-[#0046D5] text-white font-bold text-sm rounded-2xl hover:bg-blue-700 transition-all shadow-sm shrink-0 w-full md:w-auto"
-                >
-                  Add Job
-                </button>
-              )}
             </div>
 
             <div className="space-y-2">
@@ -159,7 +149,7 @@ export const HomePage = ({ onJobClick, user }: HomePageProps) => {
                     job={job}
                     onClick={() => onJobClick(job)}
                     onBookmark={() => wrapToggleBookmark(job)}
-                    onRemove={user && job.user === user._id ? () => handleRemoveJob(job) : undefined}
+                    onRemove={user?.isAdmin ? () => handleRemoveJob(job) : undefined}
                   />
                 ))
               ) : (
@@ -191,11 +181,6 @@ export const HomePage = ({ onJobClick, user }: HomePageProps) => {
         </div>
       </div>
 
-      <AddJobModal
-        isOpen={isAddJobModalOpen}
-        onClose={() => setIsAddJobModalOpen(false)}
-        onJobAdded={fetchJobs}
-      />
     </div>
   );
 };
