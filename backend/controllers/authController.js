@@ -1,9 +1,6 @@
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
-const ADMIN_EMAIL = 'eliphazyab@gmail.com';
-const ADMIN_PASSWORD = '123456';
-
 const buildUserResponse = (user) => ({
   _id:     user._id,
   name:    user.name,
@@ -30,12 +27,19 @@ exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Hardcoded admin check
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      // Ensure admin user exists in DB (upsert)
-      let admin = await User.findOne({ email: ADMIN_EMAIL });
+    // Admin credentials are stored exclusively in .env — never hardcoded
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      let admin = await User.findOne({ email: process.env.ADMIN_EMAIL });
       if (!admin) {
-        admin = await User.create({ name: 'Admin', email: ADMIN_EMAIL, password: ADMIN_PASSWORD, isAdmin: true });
+        admin = await User.create({
+          name: 'Admin',
+          email: process.env.ADMIN_EMAIL,
+          password: process.env.ADMIN_PASSWORD,
+          isAdmin: true,
+        });
       } else if (!admin.isAdmin) {
         admin.isAdmin = true;
         await admin.save();
